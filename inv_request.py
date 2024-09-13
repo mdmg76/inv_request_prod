@@ -11,18 +11,18 @@ two_month_past = datetime.date.today() - datetime.timedelta(days=60)    # to use
 
 files_loc = Path.cwd()  # read the current working directory
 files_list = list(files_loc.glob('OP Pharmacy Retail Dispense Report Q*')) # get the list of the quarterly retail dispense reports in path format
-source_rowa_db = [os.path.basename(name) for name in list(files_loc.glob('*database*'))][0] # get the rowa database file name
-current_stock = [os.path.basename(name) for name in list(files_loc.glob('extended*'))][0] # get the current rowa stock file name
+source_rowa_db = [os.path.basename(name) for name in list(files_loc.glob('*database*'))][0] # get the robotics database file name
+current_stock = [os.path.basename(name) for name in list(files_loc.glob('extended*'))][0] # get the current robotics stock file name
 file_name = [os.path.basename(i) for i in files_list]   # clean the names of files
 
-source_rowa_df = pd.read_excel(source_rowa_db, engine='pyxlsb')  # read the rowa database file
+source_rowa_df = pd.read_excel(source_rowa_db, engine='pyxlsb')  # read the robotics database file
 
 current_stock_df = pd.read_csv(current_stock, sep=';')  # read the current stock csv
 
 current_stock_df.drop(current_stock_df.columns[[2,4,5,6,7,8,9,10,11,12,14,15,16,17,19]],axis=1,inplace=True)    # delete unneeded columns by their index
 current_stock_df.reset_index(level=0, inplace=True) #step to fix misaligned columns headers
 current_stock_df.reset_index(level=0, inplace=True) #step to fix misaligned columns headers
-current_stock_df.rename(columns={
+current_stock_df.rename(columns={ro
     'index':'diff',
     'level_0':'Pack',
     'Quantity':'NDC',
